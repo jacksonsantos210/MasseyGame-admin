@@ -34,9 +34,9 @@ export default function InfluencersTokens() {
       <div class="panel box-shadow-none content-header">
         <div class="panel-body">
           <div class="col-md-12">
-              <h3 class="animated fadeInLeft">Influencers</h3>
+              <h3 class="animated fadeInLeft">Tokens</h3>
               <p class="animated fadeInDown">
-                Influencers <span class="fa-angle-right fa"></span> Listagem
+                Influencers <span class="fa-angle-right fa"></span> Tokens <span class="fa-angle-right fa"></span> Listagem
               </p>
           </div>
         </div>
