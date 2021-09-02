@@ -1,11 +1,16 @@
 import React, { useEffect, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import AuthContext from '@/contexts/authContext'
 
 export default function LogOut() {
-  const {Logout} = useContext(AuthContext);
+  const { Logout } = useContext(AuthContext);
+  const history = useHistory()
   useEffect(() => {
     async function executeLogout(){
-      await Logout()
+      const exit = await Logout();
+      if (exit === true) {
+        history.replace('/login');
+      }
     }
     executeLogout()
   }, [])
