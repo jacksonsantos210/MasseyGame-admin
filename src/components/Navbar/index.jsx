@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
 import AuthContext from '@/contexts/authContext'
 import UserAvatar from '@/assets/images/user.png'
+import LogoSmall from '@/assets/images/logo_small.png'
 
 export default function Navbar() {
   const { user } = useContext(AuthContext);
@@ -9,24 +10,24 @@ export default function Navbar() {
     <nav className="navbar navbar-default header navbar-fixed-top">
       <div className="col-md-12 nav-wrapper">
         <div className="navbar-header" style={{width: '100%'}}>
-          {/* <div className="opener-left-menu is-open">
+           {/* <div className="opener-left-menu is-open">
             <span className="top" />
             <span className="middle" />
             <span className="bottom" />
-          </div> */}
+          </div>  */}
           <a href="index.html" className="navbar-brand"> 
-            <b>Massey Game - Admin</b>
+            <span><img src={LogoSmall} alt="logo" height={25}/><b style={{marginLeft: 10}}>Massey Game - Admin</b></span>
           </a>
           <ul className="nav navbar-nav navbar-right user-nav">
-            <li className="user-name"><span>{user.name}</span></li>
+            <li className="user-name"><span>{user?.name}</span></li>
             <li className="dropdown avatar-dropdown">
               <img src={UserAvatar} className="img-circle avatar" style={{marginRight: 10}} alt="user name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" />
               <ul className="dropdown-menu user-dropdown">
-              <li><Link to="/perfil"><span className="fa fa-user" /> Meu Perfil</Link></li>
-              <li><Link to="/alterar-senha"><span className="fa fa-user" /> Alterar Senha</Link></li>
+              <li><Link to="/app/perfil"><span className="fa fa-user" /> Meu Perfil</Link></li>
+              <li><Link to="/app/alterar-senha"><span className="fa fa-user" /> Alterar Senha</Link></li>
                 <li className="more">
                   <ul>
-                    <li><Link to="/sair"><span className="fa fa-power-off" /> Sair</Link></li>
+                    <li><Link to="/app/sair"><span className="fa fa-power-off" /> Sair</Link></li>
                   </ul>
                 </li>
               </ul>
