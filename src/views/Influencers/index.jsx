@@ -67,7 +67,10 @@ export default function Influencers() {
                           <td>{item.email}</td>
                           <td>{item.phone}</td>
                           <td>{moment(item.createdAt).format('DD/MM/yyyy')}</td>
-                          <td>EDIT | REMOVE</td>
+                          <td>
+                            <button className=" btn btn-circle btn-mn btn-primary" onClick={()=>history.push(`influencers/edit/${item.id}`)}><span className="fa fa-edit"/></button>
+                            <button className=" btn btn-circle btn-mn btn-danger" style={{marginLeft:10}}><span className="fa fa-remove"/></button>
+                          </td>
                         </tr>
                       )
                     })
