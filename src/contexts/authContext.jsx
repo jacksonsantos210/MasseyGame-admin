@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createContext } from "react";
 import api from "@/services/api";
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const AuthContext = createContext({});
 
@@ -9,8 +9,8 @@ export const AuthProvider = ({ children }) =>  {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const storagedUser = localStorage.getItem('@App:user');
-    const storagedToken = localStorage.getItem('@App:token');
+    const storagedUser = sessionStorage.getItem('@mad:user');
+    const storagedToken = sessionStorage.getItem('@mad:token');
 
     if (storagedToken && storagedUser) {
       setUser(JSON.parse(storagedUser));
@@ -23,15 +23,16 @@ export const AuthProvider = ({ children }) =>  {
       console.clear();
       const response = await api.post('/auth/admin', fields);
       api.defaults.headers.Authorization = `Bearer ${response.data.token}`
-      localStorage.setItem('@App:user', JSON.stringify(response.data.admin));
-      localStorage.setItem('@App:token', response.data.token);
+      sessionStorage.setItem('@mad:user', JSON.stringify(response.data.admin));
+      sessionStorage.setItem('@mad:token', response.data.token);
       setLoading(false);
       setUser(response.data.admin);
       return true; 
     } catch (error) {
       setLoading(false);
       console.error(error);
-      toast.error("Oops! Ocorreu uma falha ao processar o login.")
+      toast.error("Oops! Ocorreu uma falha ao processar o login.");
+      return false;
     }
   }
 
@@ -43,8 +44,8 @@ export const AuthProvider = ({ children }) =>  {
       console.log("logout error");
     }
     setUser(null);
-    sessionStorage.removeItem('@App:user');
-    sessionStorage.removeItem('App:token');
+    sessionStorage.removeItem('@mad:user');
+    sessionStorage.removeItem('@mad:token');
     window.location.href = '/login';
   }
 
