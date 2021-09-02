@@ -30,6 +30,7 @@ export default function LogIn() {
       try {
         const logged =  await context.Login(fields);
         if(logged === true){
+          context.setLoading(false);
           history.push('/app')
         }
       } catch (error) {
