@@ -4,12 +4,15 @@ import moment from 'moment';
 import { Link, useHistory } from 'react-router-dom';
 import AppLayout from '@/layouts/AppLayout'
 import AuthContext from '@/contexts/authContext'
+import ModalRemove from '@/components/ModalRemove';
 import api from '@/services/api'
 
 export default function InfluencersTokens() {
   const context = useContext(AuthContext);
   const history = useHistory();
   const [tokens, setTokens] = useState(null);
+  const [removeItem, setRemoveItem] = useState(null);
+  const [removeDialog, setRemoveDialog] = useState(false);
 
   useEffect(() => {
     getData()
@@ -27,6 +30,10 @@ export default function InfluencersTokens() {
       setTokens(null);
       toast.error('ops! Falha ao carregar tokens de Influenciadores!')
     }
+  }
+
+  async function handleRemove(){
+
   }
 
   return (
@@ -54,7 +61,7 @@ export default function InfluencersTokens() {
                   <tr>
                     <th>Influencer</th>
                     <th>Token</th>
-                    <th>Aberto</th>
+                    <th>Resgatado</th>
                     <th>Gerado em</th>
                     <th>opções</th>
                   </tr>
@@ -69,8 +76,12 @@ export default function InfluencersTokens() {
                           <td>{item.opened === true ? (<span style={{fontWeight: 'bold',color:'#27C24C'}}>SIM</span>):(<span style={{fontWeight: 'bold',color:'#E43927'}}>NÃO</span>)}</td>
                           <td>{moment(item.createdAt).format('DD/MM/yyyy')}</td>
                           <td>
-                            <button className=" btn btn-circle btn-mn btn-primary" onClick={()=>history.push(`influencers-tokens/edit/${item.token}`)}><span className="fa fa-edit"/></button>
-                            <button className=" btn btn-circle btn-mn btn-danger" style={{marginLeft:10}}><span className="fa fa-remove"/></button>
+                            <button className=" btn btn-circle btn-mn btn-primary" onClick={()=>history.push(`influencers-tokens/edit/${item.token}`)} disabled={item.opened}><span className="fa fa-edit"/></button>
+                            <button className=" btn btn-circle btn-mn btn-danger" onClick={()=>{
+                              setRemoveItem(item);
+                              setRemoveDialog(true);
+                            }} style={{marginLeft:10}}
+                            disabled={item.opened}><span className="fa fa-remove" /></button>
                           </td>
                         </tr>
                       )
@@ -82,7 +93,15 @@ export default function InfluencersTokens() {
           </div>
         </div>
       </div>
-     
+      {removeDialog === true && (
+       <ModalRemove execute={handleRemove} close={()=>{
+        setRemoveItem(null);
+        setRemoveDialog(false);
+       }}>
+         <h4><b>Token:</b> {removeItem?.token}</h4>
+         <h4><b>do Influencer:</b> {removeItem?.influencer.name}</h4>
+       </ModalRemove>
+     )} 
 
 
     </AppLayout>
