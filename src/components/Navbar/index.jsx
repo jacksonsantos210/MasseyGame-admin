@@ -23,11 +23,11 @@ export default function Navbar() {
             <li className="dropdown avatar-dropdown">
               <img src={UserAvatar} className="img-circle avatar" style={{marginRight: 10}} alt="user name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" />
               <ul className="dropdown-menu user-dropdown">
-              <li><Link to="/app/perfil"><span className="fa fa-user" /> Meu Perfil</Link></li>
-              <li><Link to="/app/alterar-senha"><span className="fa fa-user" /> Alterar Senha</Link></li>
+              <li><Link to="/app/profile"><span className="fa fa-user" /> Meu Perfil</Link></li>
+              <li><Link to="/app/password"><span className="fa fa-user" /> Alterar Senha</Link></li>
                 <li className="more">
                   <ul>
-                    <li><Link to="/app/sair"><span className="fa fa-power-off" /> Sair</Link></li>
+                    <li><Link to="/app/logout"><span className="fa fa-power-off" /> Sair</Link></li>
                   </ul>
                 </li>
               </ul>
