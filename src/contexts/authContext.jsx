@@ -10,11 +10,8 @@ export const AuthProvider = ({ children }) =>  {
 
   useEffect(() => {
     const storagedUser = sessionStorage.getItem('@mad:user');
-    const storagedToken = sessionStorage.getItem('@mad:token');
-
-    if (storagedToken && storagedUser) {
+    if (storagedUser) {
       setUser(JSON.parse(storagedUser));
-      api.defaults.headers.Authorization = `Bearer ${storagedToken}`
     }
   }, []);
   
@@ -22,7 +19,6 @@ export const AuthProvider = ({ children }) =>  {
     try {
       console.clear();
       const response = await api.post('/auth/admin', fields);
-      api.defaults.headers.Authorization = `Bearer ${response.data.token}`
       sessionStorage.setItem('@mad:user', JSON.stringify(response.data.admin));
       sessionStorage.setItem('@mad:token', response.data.token);
       setLoading(false);
