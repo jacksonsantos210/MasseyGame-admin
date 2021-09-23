@@ -4,15 +4,15 @@ import { useHistory } from 'react-router-dom';
 import AuthContext from '@/contexts/authContext';
 import AuthLayout from '@/layouts/AuthLayout';
 import Loading from '@/components/Loading';
-import {LoginPanel} from "./styles";
+import '@/assets/css/login.css';
 import LogoLogin from '@/assets/images/logo_login.png';
 
 export default function LogIn() {
   const history = useHistory();
   const context = useContext(AuthContext);
   const [fields, setFields] = useState({
-    email: "",
-    password: "",
+    email: "jackson144@gmail.com",
+    password: "522576",
   });
 
   function handleChange(e) {
@@ -45,41 +45,42 @@ export default function LogIn() {
 
   return (
     <AuthLayout>
-      <div className="container">
-        <div className="form-signin">
           { 
             context.loading === true ? (
               <Loading/>
             ):(
-              <LoginPanel>
-                <div className="panel-body text-center">
-                  <img src={LogoLogin} alt="logo"/>
-                  <p className="atomic-mass"></p>
-                  <p className="element-name">Painel administrativo</p>
-                
-                  <div className="form-group form-animate-text" style={{marginTop: '30px !important'}}>
-                    <input type="email" className="form-text" name="email" required onChange={handleChange}/>
-                    <span className="bar" />
-                    <label>Usuário</label>
+                <div className="card login-card" style={{marginTop: '5%'}}>
+                  <div className="row no-gutters">
+                    <div className="col-md-5">
+                      <img src={LogoLogin} alt="login" className="login-card-img" />
+                    </div>
+                    <div className="col-md-7">
+                      <div className="card-body">
+                        <p className="login-card-description">Acessar sistema</p>
+                        <form action="#!">
+                          <div className="form-group">
+                            <label htmlFor="email" className="sr-only">E-mail</label>
+                            <input type="email" name="email"className="form-control" placeholder="E-mail" onChange={handleChange} value={fields.email}/>
+                          </div>
+                          <div className="form-group mb-4">
+                            <label htmlFor="password" className="sr-only">Senha</label>
+                            <input type="password" name="password" className="form-control" placeholder="Senha" onChange={handleChange} value={fields.password}/>
+                          </div>
+                          <button className="btn btn-block login-btn mb-4" onClick={handleLogin}>Login</button>
+                        </form>
+                        <a href="#!" className="forgot-password-link">Esqueceu a Senha?</a>
+                        <p className="login-card-footer-text"></p>
+                        <nav className="login-card-footer-nav">
+                          <a href="#!"></a>
+                          <a href="#!"></a>
+                        </nav>
+                      </div>
+                    </div>
                   </div>
-                  <div className="form-group form-animate-text" style={{marginTop: '30px !important'}}>
-                    <input type="password" className="form-text" name="password" required onChange={handleChange}/>
-                    <span className="bar" />
-                    <label>Senha</label>
-                  </div>
-                  <label className="pull-left">
-                    <input type="checkbox" className="icheck pull-left" name="checkbox1" /> Lembrar de mim
-                  </label>
-                  <button type="submit" className="btn col-md-12" onClick={handleLogin}>Entrar</button>
                 </div>
-                <div className="text-center" >
-                  <a href="forgotpass.html">Esqueceu sua senha?</a>
-                </div>
-              </LoginPanel>
             )
           }
-          </div>
-      </div>
+
     </AuthLayout>
 
   )
