@@ -5,14 +5,30 @@ import { Link } from 'react-router-dom';
 import AppLayout from '@/layouts/AppLayout'
 import AuthContext from '@/contexts/authContext'
 import api from '@/services/api'
+import {
+  Pagination,
+  ListPagination,
+  PaginationBox,
+} from "@/components/Paginations/style";
 
 export default function Players() {
   const context = useContext(AuthContext);
   const [players, setPlayers] = useState(null);
+  const [nextPage, setNextPage] = useState(1);
+
+  const MAX_ITEMS = 3;
+  const MAX_LEFT = (MAX_ITEMS - 1) / 2;
+
+  const [info, setInfo] = useState({
+    pages: 1,
+    actual: 1,
+    size: 0,
+  });
+  const first = Math.max(info.actual - MAX_LEFT, 1);
 
   useEffect(() => {
     getData()
-  }, [])
+  }, [nextPage])
 
 
   async function getData(){
@@ -20,6 +36,11 @@ export default function Players() {
       context.setLoading(true);
       const {data:{players}} = await api.get('/players');
       setPlayers(players.rows);
+      setInfo({
+        pages: players.pages,
+        actual: players.actual,
+        size: players.size,
+      });
       context.setLoading(false);
     } catch (error) {
       context.setLoading(false);
@@ -76,6 +97,41 @@ export default function Players() {
                   ) : ( <h5 style={{color: 'red'}}>Nenhum registro</h5>)}
                 </tbody>
               </table>
+              <Pagination>
+                  <PaginationBox>
+                    <button
+                      className="PaginationBtn"
+                      onClick={() => setNextPage(info.actual - 1)}
+                      disabled={info.actual === 1}
+                    >
+                      {`<--`}
+                    </button>
+                    {Array.from({ length: Math.min(MAX_ITEMS, info.pages) })
+                      .map((_, index) => index + first)
+                      .map((page) => (
+                        <ListPagination key={page}>
+                          <button
+                            onClick={() => setNextPage(info.pages)}
+                            className={
+                              page === nextPage
+                                ? "pagination__item--active"
+                                : null
+                            }
+                          >
+                            {page}
+                          </button>
+                        </ListPagination>
+                      ))}
+
+                    <button
+                      className="PaginationBtn"
+                      onClick={() => setNextPage(info.actual + 1)}
+                      disabled={info.actual === info.pages}
+                    >
+                      {`-->`}
+                    </button>
+                  </PaginationBox>
+                </Pagination>
             </div>
           </div>
         </div>
