@@ -3,7 +3,7 @@
  */
 
  body {
-  font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Arial",Arial,sans-serif;
   font-size: 13px;
   background-color:#f0f3f4;
   line-height: 1.42857143 !important;
@@ -299,7 +299,7 @@ p.quote{
 /*start: Login*/
  .form-signin-wrapper{background: #2196f3 !important;}
  .form-signin{
-         max-width: 330px;
+         max-width: 100%;
          padding: 15px;
          margin: 0 auto;
     }
