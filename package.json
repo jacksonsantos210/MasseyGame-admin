@@ -25,7 +25,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "craco start -p 3001",
+    "start": "craco start",
     "build": "craco build"
   },
   "eslintConfig": {
