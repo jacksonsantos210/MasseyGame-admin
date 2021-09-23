@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; 
 import api from '@/services/api';
 
 export default function PlayersCount() {
@@ -33,6 +34,7 @@ export default function PlayersCount() {
         <h1>{players}</h1>
         <p>Jogadores Ativos</p>
         <hr />
+        <span><Link to="/app/players">Ver mais</Link></span>
       </div>
     </div>
   )
