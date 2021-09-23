@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import api from '@/services/api';
 
 export default function InfluencerToken({type = "general"}) {
@@ -27,10 +28,11 @@ export default function InfluencerToken({type = "general"}) {
   return (
     <div className="panel box-v1">
       <div className="panel-heading bg-white border-none">
-        <div className="col-md-6 col-sm-6 col-xs-6 text-left padding-0">
-          <h4 className="text-left">Influencers</h4>
+        <div className="col-md-8 col-sm-6 col-xs-8 text-left padding-0">
+        {type==="general" ? (<h4 className="text-left">Influencers</h4>):(<h4 className="text-left">Tokens de Influencers</h4>)}
+          
         </div>
-        <div className="col-md-6 col-sm-6 col-xs-6 text-right">
+        <div className="col-md-4 col-sm-4 col-xs-4 text-right">
           <h4>
             <span className="icon-basket-loaded icons icon text-right" />
           </h4>
@@ -38,8 +40,9 @@ export default function InfluencerToken({type = "general"}) {
       </div>
       <div className="panel-body text-center">
         <h1>{tokens}</h1>
-        <p>Tokens utilizados</p>
+        {type==="general" ? (<p>Influencers Cadastrados</p>):(<p>Tokens Recuperados</p>)}
         <hr />
+        {type==="general" ? (<span><Link to="/app/influencers">Ver mais</Link></span>):(<span><Link to="/app/influencers-tokens">Ver mais</Link></span>)}
       </div>
     </div>
   )
