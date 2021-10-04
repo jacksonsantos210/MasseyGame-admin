@@ -5,17 +5,23 @@ import { Link, useHistory } from 'react-router-dom';
 import AppLayout from '@/layouts/AppLayout'
 import AuthContext from '@/contexts/authContext'
 import ModalRemove from '@/components/ModalRemove';
+import ModalItentity from '@/components/ModalItentity';
+import ModalGenerateToken from '@/components/ModalGenerateToken';
 import api from '@/services/api'
 
 export default function InfluencersTokens() {
   const context = useContext(AuthContext);
   const history = useHistory();
   const [tokens, setTokens] = useState(null);
+  const [influencers, setInfluencers] = useState(null);
   const [removeItem, setRemoveItem] = useState(null);
   const [removeDialog, setRemoveDialog] = useState(false);
+  const [ identityDialog, setIdentityDialog ] = useState(false);
+  const [generateItem, setGenerateItem] = useState(null);
+  const [generateDialog, setGenerateDialog] = useState(false);
 
   useEffect(() => {
-    getData()
+    getData();
   }, [])
 
 
@@ -32,8 +38,48 @@ export default function InfluencersTokens() {
     }
   }
 
-  async function handleRemove(){
+  async function openIdentityDialog(){
+    try {
+      context.setLoading(true);
+      const {data:{influencers}} = await api.get('/influencers');
+      setInfluencers(influencers);
+      setIdentityDialog(true);
+      context.setLoading(false);
+    } catch (error) {
+      context.setLoading(false);
+      setTokens(null);
+      toast.error('ops! Falha ao carregar tokens de Influenciadores!')
+    }
+  }
 
+  async function handleRemove(){
+    try {
+      context.setLoading(true);
+      const data = await api.post(`/influencers-tokens/delete/${removeItem.id}`);
+      context.setLoading(false);
+      toast.success('Token removido com sucesso!')
+      getData();
+    } catch (error) {
+      context.setLoading(false);
+      setInfluencer(null);
+      toast.error('ops! Falha ao remover Token!')
+    }
+    setRemoveItem(null);
+    setRemoveDialog(false);
+  }
+
+  async function handleGenerate(){
+    try {
+      context.setLoading(true);
+      const data = await api.post(`/influencers-tokens/insert`,{
+        influencer_id: generateItem
+      });
+      await getData();
+      context.setLoading(false);
+    } catch (error) {
+      context.setLoading(false);
+      toast.error('oops! Falha ao gerar Token para este influencer');
+    }
   }
 
   return (
@@ -52,7 +98,12 @@ export default function InfluencersTokens() {
       <div className="col-md-12">
         <div className="panel">
           <div className="panel-heading">
-            <h5><span style={{cursor:'pointer'}} className="fa fa-refresh" onClick={getData}> Atualizar</span></h5>
+            <h5>
+              <span style={{cursor:'pointer'}} className="fa fa-refresh" onClick={getData}> Atualizar</span>
+              <div className="col-md-11 col-sm-3">
+                <span style={{cursor:'pointer'}} className="fa fa-plus" onClick={openIdentityDialog}> Novo</span>
+              </div>    
+            </h5>
           </div>
           <div className="panel-body">
             <div className="responsive-table">
@@ -72,11 +123,10 @@ export default function InfluencersTokens() {
                       return (
                         <tr key={item.id}>
                           <td><Link to={`influencers/show/${item.influencer.id}`}>{item.influencer.name}</Link></td>
-                          <td><Link to={`influencers-tokens/show/${item.token}`}>{item.token}</Link></td>
+                          <td>{item.token}</td>
                           <td>{item.opened === true ? (<span style={{fontWeight: 'bold',color:'#27C24C'}}>SIM</span>):(<span style={{fontWeight: 'bold',color:'#E43927'}}>NÃO</span>)}</td>
                           <td>{moment(item.createdAt).format('DD/MM/yyyy')}</td>
                           <td>
-                            <button className=" btn btn-circle btn-mn btn-primary" onClick={()=>history.push(`influencers-tokens/edit/${item.token}`)} disabled={item.opened}><span className="fa fa-edit"/></button>
                             <button className=" btn btn-circle btn-mn btn-danger" onClick={()=>{
                               setRemoveItem(item);
                               setRemoveDialog(true);
@@ -102,8 +152,31 @@ export default function InfluencersTokens() {
          <h4><b>do Influencer:</b> {removeItem?.influencer.name}</h4>
        </ModalRemove>
      )} 
-
-
+      {generateDialog === true && (
+        <ModalGenerateToken execute={handleGenerate} close={()=>{
+        setGenerateDialog(false);
+        }}>
+          <h4><b>Para o Influencer:</b> {data?.name}</h4>
+        </ModalGenerateToken>
+      )}    
+      {identityDialog === true && (
+        <ModalItentity execute={()=>{ 
+          setIdentityDialog(false);
+          handleGenerate();  
+        }} close={()=>{
+        setIdentityDialog(false);
+        }}>
+          <select className="form-control" onChange={(e)=>{ 
+            setGenerateItem(e.target.value); 
+          }}>
+            {influencers?.map(function(obj){
+              return (
+                <option value={obj.id}>{obj.name}</option>
+              )
+            })}
+          </select>
+        </ModalItentity>
+      )}   
     </AppLayout>
   )
 }

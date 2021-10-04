@@ -37,7 +37,19 @@ export default function Influencers() {
   }
 
   async function handleRemove(){
-
+    try {
+      context.setLoading(true);
+      const data = await api.post(`/influencers/delete/${removeItem.id}`);
+      context.setLoading(false);
+      toast.success('Influencer removido com sucesso!')
+      getData();
+    } catch (error) {
+      context.setLoading(false);
+      setInfluencer(null);
+      toast.error('ops! Falha ao remover Influenciador!')
+    }
+    setRemoveItem(null);
+    setRemoveDialog(false);
   }
 
   return (

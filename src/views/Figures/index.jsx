@@ -54,8 +54,7 @@ export default function Figures() {
                     <th>Posição</th>
                     <th>Nome</th>
                     <th>Tipo</th>
-                    <th>Pontação</th>
-                    <th>opções</th>
+                    <th>Pontuação</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -64,13 +63,9 @@ export default function Figures() {
                       return (
                         <tr key={item.id}>
                           <td>{item.id}</td>
-                          <td><Link to={`figures/show/${item.id}`}>{item.name}</Link></td>
+                          <td>{item.name}</td>
                           <td>{item.type.name}</td>
                           <td>{item.coin}</td>
-                          <td>
-                            <button className=" btn btn-circle btn-mn btn-primary" onClick={()=>history.push(`figures/edit/${item.id}`)}><span className="fa fa-edit"/></button>
-                            <button className=" btn btn-circle btn-mn btn-danger" style={{marginLeft:10}} disabled><span className="fa fa-remove"/></button>
-                          </td>
                         </tr>
                       )
                     })

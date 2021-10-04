@@ -11,8 +11,8 @@ export default function LogIn() {
   const history = useHistory();
   const context = useContext(AuthContext);
   const [fields, setFields] = useState({
-    email: "jackson144@gmail.com",
-    password: "522576",
+    email: "",
+    password: "",
   });
 
   function handleChange(e) {

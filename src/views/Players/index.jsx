@@ -34,8 +34,9 @@ export default function Players() {
   async function getData(){
     try {
       context.setLoading(true);
-      const {data:{players}} = await api.get('/players');
-      setPlayers(players.rows);
+      const {data:{players}} = await api.get(`/players?page=${nextPage}`);
+      console.log(players);
+      setPlayers(players.data);
       setInfo({
         pages: players.pages,
         actual: players.actual,

@@ -9,7 +9,7 @@ export default function PlayersCount() {
     async function getData(){
       try {
         const {data:{players}} = await api.get('/players');
-        setPlayers(players.count);
+        setPlayers(players.size);
       } catch (error) {
         console.error(error)
       }

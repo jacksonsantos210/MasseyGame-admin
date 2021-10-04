@@ -15,7 +15,7 @@ export default function AsideLeft() {
           <MenuItem label="Influencers" route="influencers" icon="fa-users"/>
           <MenuItem label="Tokens" route="influencers-tokens" icon="fa-puzzle-piece"/>
           <MenuItem label="Figurinhas" route="figures" icon="fa-id-card"/>
-          <MenuItem label="Videos" route="videos" icon="fa-video-camera" disabled={true}/>
+          {/* <MenuItem label="Videos" route="videos" icon="fa-video-camera" disabled={true}/> */}
 
         </ul>
       </div>

@@ -9,12 +9,7 @@ import InfluencersInsert from '@/views/Influencers/Insert';
 import InfluencersEdit from '@/views/Influencers/Edit';
 import InfluencersShow from '@/views/Influencers/Show';
 import InfluencersTokens from '@/views/InfluencersTokens/index'
-import InfluencersTokensInsert from '@/views/InfluencersTokens/Insert';
-import InfluencersTokensEdit from '@/views/InfluencersTokens/Edit';
-import InfluencersTokensShow from '@/views/InfluencersTokens/Show';
 import Figures from '@/views/Figures/index'
-import FiguresEdit from '@/views/Figures/Edit';
-import FiguresShow from '@/views/Figures/Show';
 import LogIn from '@/views/Auth/LogIn/index'
 import LogOut from '@/views/Auth/LogOut/index'
 import Profile from '@/views/Profile/index'
@@ -52,12 +47,7 @@ const Routes = () => (
       <PrivateRoute exact path="/app/influencers/edit/:id" component={InfluencersEdit} />
       <PrivateRoute exact path="/app/influencers/show/:id" component={InfluencersShow} />
       <PrivateRoute exact path="/app/influencers-tokens" component={InfluencersTokens} />
-      <PrivateRoute exact path="/app/influencers-tokens/insert" component={InfluencersTokensInsert} />
-      <PrivateRoute exact path="/app/influencers-tokens/edit/:id" component={InfluencersTokensEdit} />
-      <PrivateRoute exact path="/app/influencers-tokens/show/:id" component={InfluencersTokensShow} />
       <PrivateRoute exact path="/app/figures" component={Figures} />
-      <PrivateRoute exact path="/app/figures/edit/:id" component={FiguresEdit} />
-      <PrivateRoute exact path="/app/figures/show/:id" component={FiguresShow} />
       <Route exact path="/login" component={LogIn} />
       <PrivateRoute exact path="/app/logout" component={LogOut} />
       <Route path="*" component={() => <Redirect to="/" />} />
