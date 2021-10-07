@@ -16,17 +16,28 @@ export default function Influencers() {
   const [influencers, setInfluencer] = useState(null);
   const [removeItem, setRemoveItem] = useState(null);
   const [removeDialog, setRemoveDialog] = useState(false);
+  const [nextPage, setNextPage] = useState(1);
+
+  const MAX_ITEMS = 3;
+  const MAX_LEFT = (MAX_ITEMS - 1) / 2;
+
+  const [info, setInfo] = useState({
+    pages: 1,
+    actual: 1,
+    size: 0,
+  });
+  const first = Math.max(info.actual - MAX_LEFT, 1);
 
 
   useEffect(() => {
     getData()
-  }, [])
+  }, [nextPage])
 
 
   async function getData(){
     try {
       context.setLoading(true);
-      const {data:{influencers}} = await api.get('/influencers');
+      const {data:{influencers}} = await api.get(`/influencers?page=${nextPage}`);
       setInfluencer(influencers);
       context.setLoading(false);
     } catch (error) {
