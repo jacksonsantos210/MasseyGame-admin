@@ -9,15 +9,15 @@ export default function InfluencerToken({type = "general"}) {
     async function getData(){
       try {
         if (type === "general"){
-          const general = await api.get('/influencers');
-          setTokens(general.data.influencers.length);
-
+          const {data:{influencers:{size:influencers}}} = await api.get('/influencers');
+          console.log(influencers)
+          setTokens(influencers);
         } else {
-          const useds = await api.get('/influencers-tokens/useds');
-          setTokens(useds.data.tokens.length);
+          const {data:{vouchers:{size:useds}}} = await api.get('/influencers-useds/useds');
+          setTokens(useds);
         }
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     }
     getData()
@@ -29,8 +29,8 @@ export default function InfluencerToken({type = "general"}) {
     <div className="panel box-v1">
       <div className="panel-heading bg-white border-none">
         <div className="col-md-8 col-sm-6 col-xs-8 text-left padding-0">
-        {type==="general" ? (<h4 className="text-left">Influencers</h4>):(<h4 className="text-left">Tokens de Influencers</h4>)}
-          
+       {/*  {type==="general" ? (<h4 className="text-left">Influencers</h4>):(<h4 className="text-left">Vouchers</h4>)} */}
+       {type==="general" ? (<h4 className="text-left">Influencers Cadastrados</h4>):(<h4 className="text-left">Vouchers Resgatados</h4>)}
         </div>
         <div className="col-md-4 col-sm-4 col-xs-4 text-right">
           <h4>
@@ -40,7 +40,7 @@ export default function InfluencerToken({type = "general"}) {
       </div>
       <div className="panel-body text-center">
         <h1>{tokens}</h1>
-        {type==="general" ? (<p>Influencers Cadastrados</p>):(<p>Tokens Recuperados</p>)}
+        {/* {type==="general" ? (<p>Influencers Cadastrados</p>):(<p>Tokens Recuperados</p>)} */}
         <hr />
         {type==="general" ? (<span><Link to="/app/influencers">Ver mais</Link></span>):(<span><Link to="/app/influencers-tokens">Ver mais</Link></span>)}
       </div>

@@ -13,13 +13,18 @@ export default function Dashboard() {
   return (
     <AppLayout>
       <div className="col-md-12" style={{padding: 20}}>
-        <div className="col-md-4">
+        <div className="col-md-6">
           <PlayersCount />      
         </div>
-        <div className="col-md-4">
+        <div className="col-md-6">
+          <PlayersCount type="actives"/>      
+        </div>
+      </div>
+      <div className="col-md-12" style={{padding: 20}}>
+        <div className="col-md-6">
           <InfluencerTokens/>      
         </div>
-        <div className="col-md-4">
+        <div className="col-md-6">
           <InfluencerTokens type="used" />      
         </div>
       </div>

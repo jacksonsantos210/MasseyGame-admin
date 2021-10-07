@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Navbar from "@/components/Navbar"
 import AsideLeft from '@/components/AsideLeft'
 import AuthContext from '@/contexts/authContext'
-import Loading from '../../components/Loading/index'
+import Loading from '@/components/Loading'
 /* import {} from './styles'; */
 
 export default function AppLayout ( { children } ) {

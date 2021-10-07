@@ -118,20 +118,20 @@ export default function InfluencersTokens() {
                   </tr>
                 </thead>
                 <tbody>
-                  {tokens !== null ? (
+                  {tokens !== null && tokens.length > 0 ? (
                     tokens.map(function(item){
                       return (
                         <tr key={item.id}>
                           <td><Link to={`influencers/show/${item.influencer.id}`}>{item.influencer.name}</Link></td>
                           <td>{item.token}</td>
-                          <td>{item.opened === true ? (<span style={{fontWeight: 'bold',color:'#27C24C'}}>SIM</span>):(<span style={{fontWeight: 'bold',color:'#E43927'}}>NÃO</span>)}</td>
+                          <td>{`${item.opened} vezes`}</td>
                           <td>{moment(item.createdAt).format('DD/MM/yyyy')}</td>
                           <td>
                             <button className=" btn btn-circle btn-mn btn-danger" onClick={()=>{
                               setRemoveItem(item);
                               setRemoveDialog(true);
                             }} style={{marginLeft:10}}
-                            disabled={item.opened}><span className="fa fa-remove" /></button>
+                            disabled={item.opened !== 0}><span className="fa fa-remove" /></button>
                           </td>
                         </tr>
                       )
