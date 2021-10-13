@@ -11,9 +11,9 @@ import {
   PaginationBox,
 } from "@/components/Paginations/style";
 
-export default function Players() {
+export default function Indications() {
   const context = useContext(AuthContext);
-  const [players, setPlayers] = useState(null);
+  const [tokens, setTokens] = useState(null);
   const [nextPage, setNextPage] = useState(1);
 
   const MAX_ITEMS = 3;
@@ -26,26 +26,28 @@ export default function Players() {
   });
   const first = Math.max(info.actual - MAX_LEFT, 1);
 
+
   useEffect(() => {
-    getData()
+    getData();
   }, [nextPage])
 
 
   async function getData(){
     try {
       context.setLoading(true);
-      const {data:{players}} = await api.get(`/players?page=${nextPage}`);
-      setPlayers(players.data);
+      const { data: { vouchers } } = await api.get(`/influencers-useds?page=${nextPage}`);
       setInfo({
-        pages: players.pages,
-        actual: players.actual,
-        size: players.size,
+        pages: vouchers.pages,
+        actual: vouchers.actual,
+        size: vouchers.size,
       });
+      console.log(vouchers.data)
+      setTokens(vouchers.data);
       context.setLoading(false);
     } catch (error) {
       context.setLoading(false);
-      setPlayers(null);
-      toast.error('oops! Falha ao carregar Jogadores!')
+      setTokens(null);
+      toast.error('ops! Falha ao carregar indicações!')
     }
   }
 
@@ -54,9 +56,9 @@ export default function Players() {
       <div class="panel box-shadow-none content-header">
         <div class="panel-body">
           <div class="col-md-12">
-              <h3 class="animated fadeInLeft">Jogadores</h3>
+              <h3 class="animated fadeInLeft">Indicações</h3>
               <p class="animated fadeInDown">
-                Jogadores <span class="fa-angle-right fa"></span> Listagem
+                Influencers <span class="fa-angle-right fa"></span> Indicações <span class="fa-angle-right fa"></span> Listagem
               </p>
           </div>
         </div>
@@ -65,32 +67,28 @@ export default function Players() {
       <div className="col-md-12">
         <div className="panel">
           <div className="panel-heading">
-            <h5><span style={{cursor:'pointer'}} className="fa fa-refresh" onClick={getData}> Atualizar</span></h5>
+            <h5>
+              <span style={{cursor:'pointer'}} className="fa fa-refresh" onClick={getData}> Atualizar</span> 
+            </h5>
           </div>
           <div className="panel-body">
             <div className="responsive-table">
               <table id="datatables-example" className="table table-striped " width="100%" cellSpacing={0}>
                 <thead>
                   <tr>
-                    <th>Nome</th>
-                    <th>E-mail</th>
-                    <th>País</th>
-                    <th>Estado</th>
-                    <th>Município</th>
-                    <th>Cadastrou em </th>
+                    <th>Jogador</th>
+                    <th>Figura</th>
+                    <th>Resgatado Em</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {players !== null ? (
-                    players.map(function(item){
+                  {tokens !== null && tokens.length > 0 ? (
+                    tokens.map(function(item){
                       return (
                         <tr key={item.id}>
-                          <td><Link to={`players/show/${item.id}`}>{item.name}</Link></td>
-                          <td>{item.email}</td>
-                          <td>{item.country}</td>
-                          <td>{item.provincy}</td>
-                          <td>{item.city}</td>
-                          <td>{moment(item.createdAt).format('DD/MM/yyyy')}</td>
+                          <td>{item.player_id !== null && <Link to={`/app/players/show/${item.player.id}`}>{item.player.name}</Link>}</td>
+                          <td>{`${item.figure_id} - ${item.figure.name}`}</td>
+                          <td>{item.opened_at !== null && moment(item.opened_at).format('DD/MM/YYYY')}</td>
                         </tr>
                       )
                     })
@@ -136,9 +134,6 @@ export default function Players() {
           </div>
         </div>
       </div>
-     
-
-
     </AppLayout>
   )
 }

@@ -46,7 +46,7 @@ export default function PlayersCount({type = "general"}) {
         <h1>{players}</h1>
         {/* {type==="general" ? (<p>Jogadores Existentes</p>):(<p>Jogadores Ativos</p>)} */}
         <hr />
-        <span><Link to="/app/players">Ver mais</Link></span>
+        <span>{type==="general" ? (<Link to="/app/players">Ver mais</Link>) : (<Link to="/app/players/in-game">Ver mais</Link>)}    </span>
       </div>
     </div>
   )

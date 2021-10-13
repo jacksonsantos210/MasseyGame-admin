@@ -7,6 +7,11 @@ import '@/assets/css/app.css';
 import AppLayout from '@/layouts/AppLayout';
 import AuthContext from '@/contexts/authContext';
 import api from '@/services/api';
+import {
+  Pagination,
+  ListPagination,
+  PaginationBox,
+} from "@/components/Paginations/style";
 
 
 
@@ -38,7 +43,12 @@ export default function Influencers() {
     try {
       context.setLoading(true);
       const {data:{influencers}} = await api.get(`/influencers?page=${nextPage}`);
-      setInfluencer(influencers);
+      setInfo({
+        pages: influencers.pages,
+        actual: influencers.actual,
+        size: influencers.size,
+      });
+      setInfluencer(influencers.data);
       context.setLoading(false);
     } catch (error) {
       context.setLoading(false);
@@ -96,6 +106,8 @@ export default function Influencers() {
                     <th>Nome</th>
                     <th>E-mail</th>
                     <th>Telefone</th>
+                    <th>Tag</th>
+                    <th>Indicações</th>
                     <th>Cadastrado em</th>
                     <th>Ações</th>
                   </tr>
@@ -108,6 +120,8 @@ export default function Influencers() {
                           <td><Link to={`influencers/show/${item.id}`}>{item.name}</Link></td>
                           <td>{item.email}</td>
                           <td>{item.phone}</td>
+                          <td>{item.token}</td>
+                          <td>{item.indications}</td>
                           <td>{moment(item.createdAt).format('DD/MM/yyyy')}</td>
                           <td>
                             <button className=" btn btn-circle btn-mn btn-primary" onClick={()=>history.push(`influencers/edit/${item.id}`)}><span className="fa fa-edit"/></button>
@@ -122,6 +136,41 @@ export default function Influencers() {
                   ) : ( <h5 style={{color: 'red'}}>Nenhum registro</h5>)}
                 </tbody>
               </table>
+              <Pagination>
+                  <PaginationBox>
+                    <button
+                      className="PaginationBtn"
+                      onClick={() => setNextPage(info.actual - 1)}
+                      disabled={info.actual === 1}
+                    >
+                      {`<--`}
+                    </button>
+                    {Array.from({ length: Math.min(MAX_ITEMS, info.pages) })
+                      .map((_, index) => index + first)
+                      .map((page) => (
+                        <ListPagination key={page}>
+                          <button
+                            onClick={() => setNextPage(info.pages)}
+                            className={
+                              page === nextPage
+                                ? "pagination__item--active"
+                                : null
+                            }
+                          >
+                            {page}
+                          </button>
+                        </ListPagination>
+                      ))}
+
+                    <button
+                      className="PaginationBtn"
+                      onClick={() => setNextPage(info.actual + 1)}
+                      disabled={info.actual === info.pages}
+                    >
+                      {`-->`}
+                    </button>
+                  </PaginationBox>
+                </Pagination>
             </div>
           </div>
         </div>

@@ -8,12 +8,13 @@ import Influencers from '@/views/Influencers/index'
 import InfluencersInsert from '@/views/Influencers/Insert';
 import InfluencersEdit from '@/views/Influencers/Edit';
 import InfluencersShow from '@/views/Influencers/Show';
-import InfluencersTokens from '@/views/InfluencersTokens/index'
-import Figures from '@/views/Figures/index'
-import LogIn from '@/views/Auth/LogIn/index'
-import LogOut from '@/views/Auth/LogOut/index'
-import Profile from '@/views/Profile/index'
-import Password from '@/views/Password/index'
+import Indications from '@/views/Indications/index';
+import InGame from '@/views/InGame/index';
+import Figures from '@/views/Figures/index';
+import LogIn from '@/views/Auth/LogIn/index';
+import LogOut from '@/views/Auth/LogOut/index';
+import Profile from '@/views/Profile/index';
+import Password from '@/views/Password/index';
 
 import { isAuthenticated } from "@/services/auth";
 
@@ -42,11 +43,12 @@ const Routes = () => (
       <PrivateRoute exact path="/app/password" component={Password} />
       <PrivateRoute exact path="/app/players" component={Players} />
       <PrivateRoute exact path="/app/players/show/:id" component={PlayersShow} />
+      <PrivateRoute exact path="/app/players/in-game" component={InGame} />
       <PrivateRoute exact path="/app/influencers" component={Influencers} />
       <PrivateRoute exact path="/app/influencers/insert" component={InfluencersInsert} />
       <PrivateRoute exact path="/app/influencers/edit/:id" component={InfluencersEdit} />
       <PrivateRoute exact path="/app/influencers/show/:id" component={InfluencersShow} />
-      <PrivateRoute exact path="/app/influencers-tokens" component={InfluencersTokens} />
+      <PrivateRoute exact path="/app/indications" component={Indications} />
       <PrivateRoute exact path="/app/figures" component={Figures} />
       <Route exact path="/login" component={LogIn} />
       <PrivateRoute exact path="/app/logout" component={LogOut} />

@@ -8,7 +8,7 @@ import api from '@/services/api';
 export default function InfluencersInsert() {
   const history = useHistory();
   const context = useContext(AuthContext);
-const [ fields, setFields ] = useState({name:"",phone:"",email:""});
+const [ fields, setFields ] = useState({name:"",phone:"",email:"", tag:""});
   
   const handleInsert = async () => {
     
@@ -87,16 +87,22 @@ const [ fields, setFields ] = useState({name:"",phone:"",email:""});
                 </div>
               </div>
               <div className="row">
-                <div className="col-md-4 col-sm-12">
+                <div className="col-md-3 col-sm-12">
                   <div className="form-group">
                     <label for="phone">Telefone</label>
                     <input type="tel" id="phone" name="phone" className="form-control" onChange={handleChange} value={fields.phone} aria-describedby="phoneInfluencer"/>
                   </div>
                 </div>
-                <div className="col-md-8 col-sm-12">
+                <div className="col-md-4 col-sm-12">
                   <div className="form-group">
                     <label for="email">E-mail</label>
                     <input type="mail" id="email" name="email" className="form-control" onChange={handleChange} value={fields.email} aria-describedby="emailInfluencer"/>
+                  </div>
+                </div>
+                <div className="col-md-5 col-sm-12">
+                  <div className="form-group">
+                    <label for="email">Tag</label>
+                    <input type="text" id="tag" name="tag" className="form-control" onChange={handleChange} value={fields.tag} pla placeholder="Opcional, caso preenchuida, será completada com M@60" aria-describedby="emailInfluencer"/>
                   </div>
                 </div>
               </div>

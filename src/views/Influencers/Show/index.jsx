@@ -22,9 +22,9 @@ export default function InfluencersShow() {
   async function getData(){
       try {
         context.setLoading(true);
-        const { data: {influencer, tokens} } = await api.get(`influencers/show/${id}`);
+        const { data : {influencer, tokens}  } = await api.get(`influencers/show/${id}`);
         setData(influencer);
-        setTable(tokens)
+        setTable(tokens.data)
         context.setLoading(false);
       } catch (error) {
         context.setLoading(false);
@@ -102,29 +102,23 @@ export default function InfluencersShow() {
                   <table id="datatables-example" className="table table-striped " width="100%" cellSpacing={0}>
                     <thead>
                       <tr>
-                        <th>TOKEN</th>
-                        <th>Resgatado?</th>
-                        <th>Resgatado Em</th>
-                        <th>Figura</th>
                         <th>Jogador</th>
-                        <th>Gerado em</th>
+                        <th>Figura</th>
+                        <th>Resgatado Em</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {table !== null ? (
+                      {table !== null && table.length > 0 ? (
                         table.data.map(function(item){
                           return (
                             <tr key={item.id}>
-                              <td>{item.token}</td>
-                              <td>{item.opened === true ? (<span style={{color:'green'}}>SIM</span>) : (<span style={{color:'red'}}>NÃO</span>)}</td>
-                              <td>{item.opened_at !== null && moment(item.opened_at).format('DD/MM/YYYY')}</td>
-                              <td>{item.opened === true && item.figure_id}</td>
                               <td>{item.player_id !== null && <Link to={`/app/players/show/${item.player.id}`}>{item.player.name}</Link>}</td>
-                              <td>{moment(item.createdAt).format('DD/MM/YYYY')}</td>
+                              <td>{item.opened === true && `${item.figure.id} - ${item.figure.name}`}</td>
+                              <td>{item.opened_at !== null && moment(item.opened_at).format('DD/MM/YYYY')}</td>
                             </tr>
                           )
                         })
-                      ) : ( <h5 style={{color: 'red'}}>Nenhum registro</h5>)}
+                      ) : ( <h5 style={{color: 'red', marginLeft:15}}>Nenhum registro</h5>)}
                     </tbody>
                   </table>
                 </div>

@@ -1,17 +1,17 @@
-import React, {useState, useEffect, useContext} from 'react'
-import { toast } from 'react-toastify'
+import React, {useState, useEffect, useContext} from 'react';
+import { toast } from 'react-toastify';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import AppLayout from '@/layouts/AppLayout'
-import AuthContext from '@/contexts/authContext'
-import api from '@/services/api'
+import AppLayout from '@/layouts/AppLayout';
+import AuthContext from '@/contexts/authContext';
+import api from '@/services/api';
 import {
   Pagination,
   ListPagination,
   PaginationBox,
 } from "@/components/Paginations/style";
 
-export default function Players() {
+export default function InGame() {
   const context = useContext(AuthContext);
   const [players, setPlayers] = useState(null);
   const [nextPage, setNextPage] = useState(1);
@@ -34,13 +34,13 @@ export default function Players() {
   async function getData(){
     try {
       context.setLoading(true);
-      const {data:{players}} = await api.get(`/players?page=${nextPage}`);
+      const {data:{players}} = await api.get(`/players/ingame?page=${nextPage}`);
       setPlayers(players.data);
       setInfo({
         pages: players.pages,
         actual: players.actual,
         size: players.size,
-      });
+      }); 
       context.setLoading(false);
     } catch (error) {
       context.setLoading(false);
@@ -56,7 +56,7 @@ export default function Players() {
           <div class="col-md-12">
               <h3 class="animated fadeInLeft">Jogadores</h3>
               <p class="animated fadeInDown">
-                Jogadores <span class="fa-angle-right fa"></span> Listagem
+                Jogadores <span class="fa-angle-right fa"></span> Seções em aberto
               </p>
           </div>
         </div>
@@ -77,7 +77,8 @@ export default function Players() {
                     <th>País</th>
                     <th>Estado</th>
                     <th>Município</th>
-                    <th>Cadastrou em </th>
+                    <th>Cadastrou-se em </th>
+                    <th>Abertura da seção</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -85,12 +86,13 @@ export default function Players() {
                     players.map(function(item){
                       return (
                         <tr key={item.id}>
-                          <td><Link to={`players/show/${item.id}`}>{item.name}</Link></td>
-                          <td>{item.email}</td>
-                          <td>{item.country}</td>
-                          <td>{item.provincy}</td>
-                          <td>{item.city}</td>
-                          <td>{moment(item.createdAt).format('DD/MM/yyyy')}</td>
+                          <td><Link to={`players/show/${item.player.id}`}>{item.player.name}</Link></td>
+                          <td>{item.player.email}</td>
+                          <td>{item.player.country}</td>
+                          <td>{item.player.provincy}</td>
+                          <td>{item.player.city}</td>
+                          <td>{moment(item.player.createdAt).format('DD/MM/yyyy')}</td>
+                          <td>{`${moment(item.createdAt).format('DD/MM/yyyy')} às ${moment(item.createdAt).format('H:mm')}`}</td>
                         </tr>
                       )
                     })
