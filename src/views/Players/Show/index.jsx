@@ -98,7 +98,9 @@ export default function PlayersShow() {
           </div>
           <div className="col-md-3">
             <div className="panel box-v3 text-center">
-            <h1>0</h1>
+            {player.gaming === 0 ? (<h1>NOVATO</h1>) : (
+              player.gaming === 1 ? (<h1>{`${player.gaming} hora`}</h1>) : (<h1>{`${player.gaming} horas`}</h1>)
+            )}
                 <p>Tempo de Jogo</p>
             </div>
           </div>
