@@ -86,7 +86,7 @@ export default function InGame() {
                     players.map(function(item){
                       return (
                         <tr key={item.id}>
-                          <td><Link to={`players/show/${item.player.id}`}>{item.player.name}</Link></td>
+                          <td><Link to={`/app/players/show/${item.player.id}`}>{item.player.name}</Link></td>
                           <td>{item.player.email}</td>
                           <td>{item.player.country}</td>
                           <td>{item.player.provincy}</td>
