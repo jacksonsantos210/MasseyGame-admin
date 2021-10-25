@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 import AppLayout from '@/layouts/AppLayout';
 import AuthContext from '@/contexts/authContext';
 import api from '@/services/api';
-import ModalGenerateToken from '@/components/ModalGenerateToken'
 
 export default function InfluencersShow() {
   const { id } = useParams();
@@ -12,10 +11,8 @@ export default function InfluencersShow() {
   const context = useContext(AuthContext);
   const [ data, setData ] = useState(null);
   const [ table, setTable ] = useState(null);
-  const [ generateDialog, setGenerateDialog ] = useState(false);
 
   useEffect(() => {
-    
     getData();
   }, []);
 
@@ -29,21 +26,6 @@ export default function InfluencersShow() {
       } catch (error) {
         context.setLoading(false);
         toast.error('oops! Falha ao recuperar dados do Jogador');
-      }
-    }
-
-    async function handleGenerate(){
-      try {
-        context.setLoading(true);
-        const data = await api.post(`/influencers-tokens/insert`,{
-          influencer_id: id
-        });
-        setGenerateDialog(false);
-        await getData();
-        context.setLoading(false);
-      } catch (error) {
-        context.setLoading(false);
-        toast.error('oops! Falha ao gerar Token para este influencer');
       }
     }
 
@@ -61,11 +43,8 @@ export default function InfluencersShow() {
       </div>
       {data === null ? (<h5>Carregando</h5>):(
       <div>
-        
         <div className="col-md-12 col-sm-12"> 
-         
             <div className="panel box-v3">
-              
               <div className="row">
                 <div className="col-md-11">
                   <h2>{data.name}</h2>
@@ -78,13 +57,7 @@ export default function InfluencersShow() {
                 <div className="col-md-6"><h4><b>E-mail: </b>{data.email}  </h4></div>
                 <div className="col-md-6"><h4><b>Telefone: </b>{data.phone}</h4></div>
               </div>
-            
-             
-              
             </div>
-            
-          
-          
         </div>
         {table === null ? (<h5>Carregando</h5>):(
           <div className="col-md-12 col-sm-12"> 
@@ -92,9 +65,6 @@ export default function InfluencersShow() {
               <div className="panel-heading">
                 <h5>
                   <span style={{cursor:'pointer'}} className="fa fa-refresh" onClick={getData}> Atualizar</span>
-                  <div className="col-md-11 col-sm-3">
-                    <span style={{cursor:'pointer'}} className="fa fa-plus" onClick={()=> {setGenerateDialog(true)}}> Novo</span>
-                  </div>  
                 </h5>
               </div>
               <div className="panel-body"></div>
@@ -109,7 +79,7 @@ export default function InfluencersShow() {
                     </thead>
                     <tbody>
                       {table !== null && table.length > 0 ? (
-                        table.data.map(function(item){
+                        table.map(function(item){
                           return (
                             <tr key={item.id}>
                               <td>{item.player_id !== null && <Link to={`/app/players/show/${item.player.id}`}>{item.player.name}</Link>}</td>
@@ -127,13 +97,6 @@ export default function InfluencersShow() {
         )}
       </div>
     )}
-    {generateDialog === true && (
-      <ModalGenerateToken execute={handleGenerate} close={()=>{
-      setGenerateDialog(false);
-      }}>
-        <h4><b>Para o Influencer:</b> {data?.name}</h4>
-      </ModalGenerateToken>
-    )} 
     </AppLayout>
   )
 }
